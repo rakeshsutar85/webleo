@@ -4,12 +4,20 @@ namespace App\Http\Controllers;
 
 use App\Models\MapDevice;
 use Illuminate\Http\Request;
+use App\Services\UserService;
+
 
 class MapDeviceController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
+    protected $userService;
+
+    public function __construct(UserService $userService)
+    {
+        $this->userService = $userService;
+    }
     public function index()
     {
         //
@@ -28,8 +36,11 @@ class MapDeviceController extends Controller
      */
     public function store(Request $request)
     {
+        $userData = ['name' => $request['customerName'], 'email' => $request['customerEmail']];
+        $user = $this->userService->store($userData, 'user');
         //
         $mapDevice = new MapDevice();
+        $mapDevice->user_id = $user;
         $mapDevice->state = $request['state'];
         $mapDevice->distributor_id = $request['distributor'];
         $mapDevice->dealer_id = $request['dealer'];

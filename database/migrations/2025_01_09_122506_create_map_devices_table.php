@@ -13,6 +13,8 @@ return new class extends Migration
     {
         Schema::create('map_devices', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('user_id');
+            $table->foreign('user_id')->references('id')->on('users')->onUpdate('cascade')->onDelete('cascade');
             $table->string('state')->nullable();
             $table->unsignedBigInteger('distributor_id')->nullable();
             $table->foreign('distributor_id')->references('id')->on('users')->onUpdate('cascade')->onDelete('cascade');
