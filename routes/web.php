@@ -46,7 +46,6 @@ Route::middleware('auth')->group(function () {
     Route::get('/fetch/customFields/element/{id}/{parent}', [Ajax::class, 'fetchCustomFields'])->name('superadmin.fetch.custom.fields');
 
     Route::get('/superadmin/fetch/barcode/{part_id}', [Ajax::class, 'fetchBarcodeByPartNo'])->name('superadmin.fetch.barcode');
-
 });
 
 
@@ -89,8 +88,6 @@ Route::middleware(['auth', 'role:superadmin'])->group(function () {
     Route::get('/superadmin/element/component-list/{element_id}', [ComponentController::class, 'list'])->name('superadmin.element.component');
     Route::get('/superadmin/assign-element', [AdminController::class, 'assignElementView'])->name('superadmin.assign.element');
     Route::post('/superadmin/assign-element', [AdminController::class, 'storeAssignElement'])->name('superadmin.assign.element.store');
-
-
 });
 
 
@@ -136,7 +133,12 @@ Route::middleware(['auth', 'role:manufacturer'])->group(function () {
 
     Route::post('/barcode/allocate', [BarcodeController::class, 'saveBarcodeAllocation'])->name('barcode.allocate');
 
-    
+    Route::get('/manufacturer/barcode/certificate', [MapDeviceController::class, 'certificate'])->name('barcode.certificate');
+
+
+    Route::get('image/{filename}', [MapDeviceController::class, 'showImage'])->name('image.show');
+
+
     // ajax
     Route::get('/manufacturer/fetch/distributer/{state}', [Ajax::class, 'fetchdistributer'])->name('manufacturer.fetch.distributer');
     Route::get('/manufacturer/fetch/dealer/{distributer_id}', [Ajax::class, 'fetchdealer'])->name('manufacturer.fetch.dealer');
@@ -151,28 +153,21 @@ Route::middleware(['auth', 'role:manufacturer'])->group(function () {
     Route::get('/manufacturer/fetch/devicemodelno/{id}', [Ajax::class, 'fetchModelNoByElement']);
 
     Route::get('/manufacturer/fetch/devicepartno/{id}', [Ajax::class, 'fetchPartNoByModelNo']);
-
-
-
 });
 
 Route::middleware(['auth', 'role:distributer'])->group(function () {
     Route::get('/distributer/dashboard', [DistributorsController::class, 'dashboard'])->name('distributer.dashboard');
     Route::get('/distributer/create/dealer', [DealerController::class, 'create'])->name('distributer.create.dealer');
     Route::post('/distributer/store/dealer', [DealerController::class, 'store'])->name('distributer.store.dealer');
-
-
 });
 
 Route::middleware(['auth', 'role:dealer'])->group(function () {
     Route::get('/dealer/dashboard', [DealerController::class, 'dashboard'])->name('dealer.dashboard');
     Route::get('/dealer/create/technician', [TechnicianController::class, 'create'])->name('dealer.create.technician');
     Route::post('/dealer/store/technician', [TechnicianController::class, 'store'])->name('dealer.store.technician');
-
 });
 
 
 Route::middleware(['auth', 'role:technician'])->group(function () {
     Route::get('/technician/dashboard', [TechnicianController::class, 'dashboard'])->name('technician.dashboard');
-
 });

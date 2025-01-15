@@ -2,10 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Dealer;
 use App\Models\MapDevice;
 use Illuminate\Http\Request;
 use App\Services\UserService;
-
+use Symfony\Component\HttpFoundation\StreamedResponse;
+use Illuminate\Support\Facades\Storage;
+use Symfony\Component\HttpFoundation\Response;
 
 class MapDeviceController extends Controller
 {
@@ -133,5 +136,28 @@ class MapDeviceController extends Controller
     public function destroy(string $id)
     {
         //
+    }
+
+    public function showImage($filename): Response
+    {
+        $path = "private/uploads/{$filename}";
+
+        if (Storage::exists($path)) {
+            $file = Storage::get($path);
+            $mimeType = Storage::mimeType($path);
+
+            return response($file, 200)->header('Content-Type', $mimeType);
+        }
+
+        abort(404, 'Image not found');
+    }
+
+    public function certificate()
+    {
+        $mapDevicedata = MapDevice::find(1);
+        $mapDevicedealerData =  Dealer::find($mapDevicedata->dealer_id);
+        // return $mapDevicedata;
+        //return $mapDevicedealerData;
+        return view('manufacturer.certificate', compact('mapDevicedata', 'mapDevicedealerData'));
     }
 }

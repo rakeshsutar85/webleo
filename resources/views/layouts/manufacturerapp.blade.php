@@ -271,6 +271,9 @@
                                             href="{{ route('manufacturer.barcode.allocate') }}">Allocate Barcode</a>
                                     </li>
                                     <li class="nav-item"><a class="nav-link"
+                                            href="{{ route('barcode.certificate') }}">Certificate</a>
+                                    </li>
+                                    <li class="nav-item"><a class="nav-link"
                                             href="{{ route('wlp.manufacturer.list') }}">Rollback Barcode</a></li>
                                     <li class="nav-item"><a class="nav-link"
                                             href="{{ route('wlp.manufacturer.list') }}">Renewal Allocation</a></li>
